@@ -1,6 +1,9 @@
 name: Create Extension Package
 
 on:
+  push:
+    tags:
+      - 'v*'
   release:
     types: [published]
 
