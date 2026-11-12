@@ -1,0 +1,30 @@
+name: Create Extension Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Create extension zip
+        run: |
+          mkdir -p dist
+          zip -r dist/d365fo-task-recorder-screenshot.zip \
+            manifest.json \
+            background.js \
+            screenshot.js \
+            popup/ \
+            icons/
+      
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/d365fo-task-recorder-screenshot.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
