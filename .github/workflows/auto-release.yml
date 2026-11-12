@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development
     paths:
       - 'manifest.json'
 
@@ -30,6 +31,17 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
       
+      - name: Determine release metadata
+        id: metadata
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+            echo "notes=Production release" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/development" ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+            echo "notes=Development/beta release for testing" >> $GITHUB_OUTPUT
+          fi
+      
       - name: Create release tag and push
         if: steps.check_tag.outputs.exists == 'false'
         run: |
@@ -44,6 +56,7 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release v${{ steps.version.outputs.version }}
-          body: Extension version ${{ steps.version.outputs.version }}
+          prerelease: ${{ steps.metadata.outputs.prerelease }}
+          body: ${{ steps.metadata.outputs.notes }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
