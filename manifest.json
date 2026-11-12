@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "D365fO Task Recorder Screenshot",
-  "version": "1.0.0.2",
+  "version": "2.0.0.0",
   "description": "Screenshot capture used for Dynamics 365 for Finance and Operations task recorder.",
   "icons": {
     "16": "icons/screenshot16x16.png",
@@ -25,6 +25,6 @@
     "tabs"
   ],
   "host_permissions": [
-    "https://*.dynamics.com/*"
+    "<all_urls>"
   ]
 }
