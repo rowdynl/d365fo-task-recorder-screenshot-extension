@@ -1,27 +1,30 @@
 {
+  "manifest_version": 3,
   "name": "D365fO Task Recorder Screenshot",
   "version": "1.0.0.2",
   "description": "Screenshot capture used for Dynamics 365 for Finance and Operations task recorder.",
   "icons": {
-        "16": "icons/screenshot16x16.png",
-        "32": "icons/screenshot32x32.png",
-        "48": "icons/screenshot48x48.png",
-        "128": "icons/screenshot128x128.png"
-    },
-    "browser_action": {
-        "default_popup": "popup/popup.html"
-    },
-	"background": {
-    "scripts": ["background.js"]
+    "16": "icons/screenshot16x16.png",
+    "32": "icons/screenshot32x32.png",
+    "48": "icons/screenshot48x48.png",
+    "128": "icons/screenshot128x128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "content_scripts": [
-	  {
-		"matches": ["https://*.dynamics.com/*"],
-		"js": ["screenshot.js"]
-	  }
+    {
+      "matches": ["https://*.dynamics.com/*"],
+      "js": ["screenshot.js"]
+    }
   ],
   "permissions": [
-    "tabs", "<all_urls>"
+    "tabs"
   ],
-  "manifest_version": 2
+  "host_permissions": [
+    "https://*.dynamics.com/*"
+  ]
 }
